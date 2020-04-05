@@ -14,7 +14,7 @@
 		<div id='sogamain'>
 			<div id='soga'>
 				<ul>
-					<li>Creators</li>
+					<li>Creatorss</li>
 					<li>Partners</li>
 					<li>Developers</li>
 				</ul>
