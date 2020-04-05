@@ -1,0 +1,11 @@
+@charset "UTF-8";
+m_insert{
+	width:600px;
+	height:1200px;
+	border:1px solid #000;
+	margin:auto;
+}
+#frm label{
+	display: inline-block;
+	width:120px;
+}
