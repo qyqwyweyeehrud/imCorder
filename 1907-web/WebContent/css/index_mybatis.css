@@ -1,0 +1,70 @@
+/*css/mybatis.css------------------*/
+@charset "UTF-8";
+	#main_f{
+		width:800px;
+		margin: auto;
+	}
+	#top{
+		height: 100px;
+		background-color: #fee;
+		margin-bottom: 20px;
+	}
+	#middle{
+		min-height:200px;
+		background-color:#efe;
+		margin-bottom: 20px;
+	}
+	#foot{
+		height: 100px;
+		background-color: #eef;
+		text-align: center;
+		padding-top:40px;
+	}
+	.row{
+		cursor: pointer;
+	}
+	#frm_select{
+		text-align: right;
+		padding: 20px;
+	}
+	#title{
+		background-color:#777;
+		color:#fff;
+	}
+	#title .no{
+		width:80px;
+	}
+	#title .subject{
+		width:350px;
+	}
+	#title .mdate{
+		width:80px;
+	}
+	#title .id{
+		width:80px;
+	}
+	#title .hit{
+		width:80px;
+	}
+	#page{
+		text-align: center;
+	}
+	
+	.row #no{
+		width:80px;
+	}
+	.row #subject{
+		width:350px;
+	}
+	.row #mdate{
+		width:80px;
+	}
+	.row #id{
+		width:80px;
+	}
+	.row #hit{
+		width:80px;
+	}
+	
+	
+	

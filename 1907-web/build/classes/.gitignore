@@ -1,4 +1,7 @@
 /bean/
 /bean1/
+/config.properties
+/config.xml
 /mongo/
+/mybatis/
 /servlet/
