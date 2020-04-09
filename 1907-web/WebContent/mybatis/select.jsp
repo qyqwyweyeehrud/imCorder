@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src='./mybatis/mybatis.js'></script>
 </head>
 <body>
 	<div id='main'>
@@ -25,39 +27,27 @@
 				<span class='mDate'>작성일 </span>
 				<span class='hit'>조회수</span>
 		</div>
-			<div class='row' onclick="view(100)">
-				<span id='no'>순번1</span>
-				<span id='subject'>과목1</span>
-				<span id='id'>작성자1</span>
-				<span id='mDate'>작성일1 </span>
-				<span id='hit'>조회수1</span>
-			</div>
-			<div class='row' onclick="view(200)">
-				<span id='no'>순번2</span>
-				<span id='subject'>과목2</span>
-				<span id='id'>작성자2</span>
-				<span id='mDate'>작성일2 </span>
-				<span id='hit'>조회수2</span>
-			</div>
-			<div class='row' onclick="view(300)">
-				<span id='no'>순번3</span>
-				<span id='subject'>과목3</span>
-				<span id='id'>작성자3</span>
-				<span id='mDate'>작성일3 </span>
-				<span id='hit'>조회수3</span>
-			</div>
+			<c:forEach var="vo" items="${list}">
+				<div class='row' onclick="view(${vo.serial})">
+					<span id='no'>${vo.serial}</span>
+					<span id='subject'>${vo.subject}</span>
+					<span id='id'>${vo.id}</span>
+					<span id='mDate'>${vo.mDate} </span>
+					<span id='hit'>${vo.hit }</span>
+				</div>
+			</c:forEach>
+			
 			
 			<div id='page'>
-				<input type='button' value='이전'  onclick='go(1)'/>
-				
-				<input type='button' value='1' onclick='go(1)'/>
-				<input type='button' value='2' onclick='go(2)'/>
-				<input type='button' value='3' onclick='go(3)'/>
-				<input type='button' value='4' onclick='go(4)'/>
-				<input type='button' value='5' onclick='go(5)'/>
-				
-				<input type='button' value='다음' onclick='go(6)'/>
-			
+				<c:if test="${p.startPage > p.blockSize }">
+					<input type='button' value='이전'  onclick='go(${p.startPage-1})'/>
+				</c:if>
+				<c:forEach var='i' begin='${p.startPage }' end='${p.endPage }'>
+					<input type='button' value='${i }' onclick='go(${i})' class="${(param.nowPage==i)? 'here':'' }"/>
+				</c:forEach>
+				<c:if test="${p.totPage > p.endPage }">
+					<input type='button' value='다음' onclick='go(${p.startPage+1})'/>
+				</c:if>
 			
 		</div>
 	</div>	

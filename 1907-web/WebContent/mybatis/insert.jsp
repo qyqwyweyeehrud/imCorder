@@ -18,12 +18,16 @@
 			<textarea rows="10" cols="50" name='content'>수리산 비기 벽력일섬!!</textarea><br/>
 			
 			<label>암호</label><br/>
-			<input type='hidden' name='pwd' value='1'/><br/>
+			<input type='password' name='pwd' value='1'/><br/>
 			<label>파일 첨부</label><br/>
-			<input type='file' name='att' multiple/><br/><br/>
+			<input type='file' name='att' multiple id='btnatt'/><br/><br/>
+			<fieldset id='attList'>
+				<legend>첨부된 파일목록</legend>
+			</fieldset>
 			
 			<input type='button' value='저장' id='btnRegister'/>
 			<input type='button' value='취소' id='btnList'/><br/>
+			
 			<br/>
 			<input type='text' name='nowPage' value='${param.nowPage }'/>
 			<input type='text' name='findStr' value='${param.findStr }'/>
