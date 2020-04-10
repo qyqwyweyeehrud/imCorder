@@ -16,7 +16,7 @@ public class BoardMybatis {
 		List<BoardVo> list = null;
 		try {
 			//p.setFindStr("어");
-			list = sqlSessoin.selectList("board.select",p);
+			list = sqlSessoin.selectList("board.select1",p);
 			
 			for(BoardVo vo : list) {
 				System.out.println(vo.getId());

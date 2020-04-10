@@ -11,6 +11,12 @@ let btnFunc = function(){
 			frm.submit();
 		}
 	}
+	if(getId('btnRegister')!=null){
+		getId('btnRegister').onclick = function(){
+			frm.action = 'insertR.myba'
+			frm.submit();
+		}
+	}
 	if(getId('btnList')!=null){
 		getId('btnList').onclick = function(){
 			frm.enctype ="";
@@ -48,9 +54,12 @@ let btnFunc = function(){
 	}
 	if(getId('btnUpdate')!=null){
 		getId('btnUpdate').onclick = function(){
-			frm.enctype ="";
-			frm.action = "modifyR.myba";
-			frm.submit();
+			let pwd = prompt("수정 하려면 암호를..");
+			if(pwd!=null && pwd!=''){
+				frm.pwd.value=pwd;
+				frm.action = "modifyR.myba";
+				frm.submit();
+			}
 		}
 	}
 	if(getId('btnDelete')!=null){
@@ -80,6 +89,8 @@ let btnFunc = function(){
 }
 let go = function(nowPage){
 	frm.nowPage.value = nowPage;
+	frm.action = 'select.myba';
+	frm.submit();
 }
 let view = function(serial){
 	frm.serial.value = serial;

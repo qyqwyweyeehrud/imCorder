@@ -16,8 +16,8 @@
 			<input type='text' name="findStr" value='${param.findStr }'/>
 			<input type="button" value='검색' id='btnFind'/>
 			
-			<input type='hidden' name='nowPage' value='${param.nowPage }'/>
-			<input type='hidden' name='serial' value='100'/>
+			<input type='hidden' name='nowPage' value='${empty param.nowPage?'1':param.nowPage}'/>
+			<input type='hidden' name='serial'/>
 		</form>
 		
 		<div id='title'>
@@ -46,7 +46,7 @@
 					<input type='button' value='${i }' onclick='go(${i})' class="${(param.nowPage==i)? 'here':'' }"/>
 				</c:forEach>
 				<c:if test="${p.totPage > p.endPage }">
-					<input type='button' value='다음' onclick='go(${p.startPage+1})'/>
+					<input type='button' value='다음' onclick='go(${p.endPage+1})'/>
 				</c:if>
 			
 		</div>
