@@ -72,7 +72,7 @@
 	
 	
 	
-	<update id="update" parameterType="mybatis.boardVo">
+	<update id="update" parameterType="mybatis.BoardVo">
 		update board set subject=#{subject}, content=#{content}
 		where serial=#{serial} and pwd = #{pwd}
 	</update>

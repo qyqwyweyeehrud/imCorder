@@ -84,6 +84,13 @@ public class BoardMybatisDao {
 	
 	public String modify(BoardVo vo , List<AttVo> attList , List<AttVo> delList) {
 		String msg="수정 완료!!";
+		System.out.println("serial" + vo.getSerial());
+		System.out.println("id " + vo.getId());
+		System.out.println("pserial" + vo.getpSerial());
+		System.out.println("date" + vo.getmDate());
+		System.out.println("subject"+vo.getSubject());
+		System.out.println("content" + vo.getContent());
+		
 		
 		try {
 			//본문글 수정 작업
@@ -91,14 +98,23 @@ public class BoardMybatisDao {
 			if(cnt<1) {
 				throw new Exception("본문글 삭제중 오류발생");
 			}
+			System.out.println("1완료");
 			//본문글 수정이 정상적으로 이루어지면 첨부데이터 를 추가 // boardAtt에 추가할수없다
+			
 			for(AttVo attVo : attList) {
-				attVo.setSerial(vo.getpSerial());
+				attVo.setSerial(vo.getSerial());
+				System.out.println("oriFile" + attVo.getOriFile());
+				System.out.println("sysFile" + attVo.getSysFile());
+				System.out.println("pserial" + attVo.getPserial());
+				System.out.println("serial" + attVo.getSerial());
+				
 				cnt = sqlSession.insert("board.att_insert2",attVo);
 				if(cnt<1) {
+					
 					throw new Exception("첨부 데이터 정보 수정중 오류 발생");
 				}
 			}
+			System.out.println("2완료");
 			//boardAtt에 삭제파일 정보를 제거
 			for(AttVo attVo : delList) {
 				cnt = sqlSession.delete("board.att_delete",attVo);
@@ -107,6 +123,7 @@ public class BoardMybatisDao {
 				}
 					
 			}
+			System.out.println("3완료");
 			//파일 삭제작업
 			delFile(delList);
 			

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import bean.page;
+
 public class BoardMybatis {
 	SqlSession sqlSessoin; //JAVA의 Connection역할을 한다
 	
@@ -12,7 +14,7 @@ public class BoardMybatis {
 		sqlSessoin = BoardFactory.getFactory().openSession();//board의 select를 바로 실행 시킬수있는 작업이
 	}
 	
-	public List<BoardVo> select(Page p){
+	public List<BoardVo> select(page p){
 		List<BoardVo> list = null;
 		try {
 			//p.setFindStr("어");
@@ -33,8 +35,11 @@ public class BoardMybatis {
 	}
 	public static void main(String[] args) {
 		BoardMybatis bm = new BoardMybatis();
-		Page p = new Page();
-		p.findStr = "어";
-		bm.select(p);
+		page p = new page();
+		p.setFindStr("어");
+		List<BoardVo> list = bm.select(p);
+		for(BoardVo vo : list) {
+			System.out.println(vo.getSubject());
+		}
 	}
 }

@@ -38,6 +38,7 @@ public class FileUpload {
 		BoardVo vo = new BoardVo();
 		List<AttVo> attList = new ArrayList<AttVo>();
 		List<AttVo> delList = new ArrayList<AttVo>();
+		AttVo attVo = new AttVo();
 		page p = new page();
 		
 		DiskFileItemFactory factory = new DiskFileItemFactory();//파일을 업로드하기위한 파일을 만들다
@@ -51,6 +52,7 @@ public class FileUpload {
 		try {
 			List<FileItem> list = sf.parseRequest(req);//from태그의 input태그들을 파싱해서 처리
 			for(FileItem fi:list) {
+				
 				String v = fi.getString("utf-8");
 				String k = fi.getFieldName();//이름값
 				
@@ -93,7 +95,7 @@ public class FileUpload {
 					if(fi.getSize()>0) {
 						String f = fi.getName();
 						String sysfile = new Date().getTime()+"-"+f;//db에저장되는 사진이름 중복이 없게하기위해 파일명에 현재시간을 롱타입으로바꿔서 저장하겠다
-						AttVo attVo = new AttVo();
+						
 						attVo.setOriFile(f);
 						attVo.setSysFile(sysfile);
 						attList.add(attVo);//n번돌때마다 파일 뭐시기를 담아서 리퀘스트를 하겟죠?
