@@ -66,8 +66,9 @@ let btnFunc = function(){
 		getId('btnDelete').onclick = function(){
 			let pwd = prompt('삭제하려면 암호를....');
 			if(pwd!=null && pwd !=''){
+				frm.enctype ="";
 				frm.pwd.value = pwd;
-				frm.action = 'delete.myba';
+				frm.action ="deleteR.myba";
 				frm.submit();
 			}
 		}
@@ -81,7 +82,6 @@ let btnFunc = function(){
 	}
 	if(getId('btnReplR')!=null){
 		getId('btnReplR').onclick = function(){
-			frm.enctype ="";
 			frm.action = 'replR.myba';
 			frm.submit();
 		}

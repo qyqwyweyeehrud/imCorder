@@ -67,7 +67,7 @@ public class BoardServlet extends HttpServlet{
 		case "modifyR.myba":
 			modifyR();
 			break;
-		case "delete.myba":
+		case "deleteR.myba":
 			deleteR();
 			break;
 		case "repl.myba":
@@ -83,7 +83,7 @@ public class BoardServlet extends HttpServlet{
 		
 		page p = new page();
 		p.setFindStr(req.getParameter("findStr"));
-		if(req.getParameter("nowPage")!=null &&req.getParameter("nowPage")!="") {
+		if(req.getParameter("nowPage")!=null) {
 			p.setNowPage(Integer.parseInt(req.getParameter("nowPage")));
 		}
 		List<BoardVo> list = dao.select(p);
@@ -98,7 +98,8 @@ public class BoardServlet extends HttpServlet{
 		String path = url + "view.jsp";
 		int serial = Integer.parseInt(req.getParameter("serial"));
 		
-		BoardVo vo = dao.view(serial);
+		
+		BoardVo vo = dao.view(serial,'v');		
 		List<AttVo> attList = dao.getAttList(serial);
 		
 		req.setAttribute("vo", vo);
@@ -131,7 +132,7 @@ public class BoardServlet extends HttpServlet{
 	public void modify() throws ServletException, IOException{
 		String path = url + "modify.jsp";
 		int serial = Integer.parseInt(req.getParameter("serial"));
-		BoardVo vo = dao.view(serial);
+		BoardVo vo = dao.view(serial,'n');
 		List<AttVo> attList = dao.getAttList(serial);
 		req.setAttribute("vo", vo);
 		req.setAttribute("attList", attList);
@@ -157,6 +158,17 @@ public class BoardServlet extends HttpServlet{
 	}
 	public void deleteR() throws ServletException, IOException{
 		String path = url + "delete_result.jsp";
+		
+		int serial = Integer.parseInt(req.getParameter("serial"));
+		String pwd = req.getParameter("pwd");
+		
+		BoardVo vo = new BoardVo();
+		vo.setSerial(serial);
+		vo.setPwd(pwd);
+		
+		String msg = dao.delete(vo);
+		req.setAttribute("msg", msg);
+		
 		rd = req.getRequestDispatcher(path);
 		rd.forward(req, resp);
 	}
@@ -167,8 +179,41 @@ public class BoardServlet extends HttpServlet{
 	}
 	public void replR() throws ServletException, IOException{
 		String path = url + "repl_result.jsp";
+		
+		FileUpload fu = new FileUpload(req,resp);
+		req = fu.uploading();
+		
+		BoardVo vo = (BoardVo)req.getAttribute("vo");
+		List<AttVo> attList = (List<AttVo>)req.getAttribute("attList");
+		
+		String msg = dao.repl(vo , attList);
+		req.setAttribute("msg", msg);
+		
 		rd = req.getRequestDispatcher(path);
 		rd.forward(req, resp);
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

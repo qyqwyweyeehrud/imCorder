@@ -20,14 +20,16 @@
 				</c:forEach>
 				</ul>
 			</div>
-			<input type='button' value='수정' id='btnModify'/>
+			<input type='button' value='수정' id='btnModify'/><br/>
 			<input type='button' value='삭제' id='btnDelete'/><br/>
-			<input type='button' value='댓글' id='btnRepl'/>
+			<input type='button' value='댓글' id='btnRepl'/><br/>
 			<input type='button' value='취소' id='btnList'/><br/>
 			
 			<br/>
 			<input type='text' name='nowPage' value='${param.nowPage }'/>
 			<input type='text' name='findStr' value='${param.findStr }'/>
 			<input type='text' name='serial' value='${vo.serial }'/>
+			<input type='text' name='pSerial' value='${vo.serial }'/>
+			<input type='text' name='pwd'/>
 		</form>
 	</div>

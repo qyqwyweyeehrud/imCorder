@@ -30,7 +30,7 @@
 			<c:forEach var="vo" items="${list}">
 				<div class='row' onclick="view(${vo.serial})">
 					<span id='no'>${vo.serial}</span>
-					<span id='subject'>${vo.subject}</span>
+					<span id='subject'>${vo.subject}${(vo.attCnt>0)?[vo.attCnt]:''} </span>
 					<span id='id'>${vo.id}</span>
 					<span id='mDate'>${vo.mDate} </span>
 					<span id='hit'>${vo.hit }</span>

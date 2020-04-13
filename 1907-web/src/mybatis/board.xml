@@ -24,7 +24,7 @@
 			select rownum rno , M.* from(
 				select  serial ,
 				 		lpad(' ', (level-1)*12 ,<![CDATA['&nbsp;&nbsp;']]> ) || subject  subject,
-				 		id ,to_char(mDate,'rrrr-mm-dd') mDate , hit 
+				 		id ,to_char(mDate,'rrrr-mm-dd') mDate , hit , getAttCnt(serial) attCnt
 				from board 
 				where subject like '%${findStr}%' or content like '%${findStr}%'
 				connect by prior serial = pserial
@@ -45,7 +45,10 @@
 		from boardAtt
 		where pserial = ${_parameter}
 	</select>
-	
+	<update id='hit' parameterType="Integer">
+		update board set hit = hit + 1
+		where serial=${_parameter}
+	</update>
 	
 	
 
@@ -81,8 +84,39 @@
 		values(seq_boardAtt.nextval , #{serial} , #{oriFile} , #{sysFile})
 	</insert>
 	<delete id="att_delete" parameterType="mybatis.AttVo">
-		delete from boardAtt where sysFile=#{sysFile}
+		delete from boardAtt where sysFile=#{sysFile} or pserial = ${serial}
 	</delete>
+	
+	
+	
+	
+	
+	
+	<select id ='repl_cnt' parameterType="Integer" resultType="Integer">
+		select count(serial) cnt from board where pserial = ${_parameter}
+	</select>
+	<delete id = 'delete' parameterType="mybatis.BoardVo">
+		delete from board where serial = ${serial} and pwd = #{pwd}
+	</delete>
+	<select id='att_list' parameterType="Integer" resultType="mybatis.AttVo">
+		select serial , pserial , oriFile , sysFile 
+		from boardAtt
+		where pserial = ${_parameter}
+	</select>
+	
+	
+	
+	
+	
+	<insert id='repl' parameterType="mybatis.BoardVo">
+		insert into board(serial , id , pwd , subject , content ,  mdate , hit ,pSerial)
+		values(seq_board.nextval , #{id} , #{pwd} , #{subject} , #{content} , sysdate , 0 , #{pSerial})
+	</insert>
+	
+	
+	
+	
+	
 	
 	
 	<!-- 

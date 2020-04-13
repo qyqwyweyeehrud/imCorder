@@ -9,7 +9,15 @@ public class BoardVo {
 	String pwd = "";
 	int hit;
 	int pSerial;
+	int attCnt; //첨부파일 갯수
 	
+	
+	public int getAttCnt() {
+		return attCnt;
+	}
+	public void setAttCnt(int attCnt) {
+		this.attCnt = attCnt;
+	}
 	public int getSerial() {
 		return serial;
 	}

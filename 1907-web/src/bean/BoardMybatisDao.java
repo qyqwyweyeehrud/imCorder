@@ -57,11 +57,19 @@ public class BoardMybatisDao {
 		
 	}
 	
-	public BoardVo view(int serial) {
+	public BoardVo view(int serial,char v) {
 		BoardVo vo = null;
 		
 		try {
 			vo = sqlSession.selectOne("board.view",serial);
+			if(v=='v') {
+				int cnt = sqlSession.update("board.hit",serial);
+				if(cnt<1) {
+					throw new Exception("조회수 업데이트중 오류발생");
+				}else {
+					sqlSession.commit();
+				}
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -84,12 +92,6 @@ public class BoardMybatisDao {
 	
 	public String modify(BoardVo vo , List<AttVo> attList , List<AttVo> delList) {
 		String msg="수정 완료!!";
-		System.out.println("serial" + vo.getSerial());
-		System.out.println("id " + vo.getId());
-		System.out.println("pserial" + vo.getpSerial());
-		System.out.println("date" + vo.getmDate());
-		System.out.println("subject"+vo.getSubject());
-		System.out.println("content" + vo.getContent());
 		
 		
 		try {
@@ -98,15 +100,10 @@ public class BoardMybatisDao {
 			if(cnt<1) {
 				throw new Exception("본문글 삭제중 오류발생");
 			}
-			System.out.println("1완료");
 			//본문글 수정이 정상적으로 이루어지면 첨부데이터 를 추가 // boardAtt에 추가할수없다
 			
 			for(AttVo attVo : attList) {
 				attVo.setSerial(vo.getSerial());
-				System.out.println("oriFile" + attVo.getOriFile());
-				System.out.println("sysFile" + attVo.getSysFile());
-				System.out.println("pserial" + attVo.getPserial());
-				System.out.println("serial" + attVo.getSerial());
 				
 				cnt = sqlSession.insert("board.att_insert2",attVo);
 				if(cnt<1) {
@@ -114,7 +111,6 @@ public class BoardMybatisDao {
 					throw new Exception("첨부 데이터 정보 수정중 오류 발생");
 				}
 			}
-			System.out.println("2완료");
 			//boardAtt에 삭제파일 정보를 제거
 			for(AttVo attVo : delList) {
 				cnt = sqlSession.delete("board.att_delete",attVo);
@@ -123,7 +119,6 @@ public class BoardMybatisDao {
 				}
 					
 			}
-			System.out.println("3완료");
 			//파일 삭제작업
 			delFile(delList);
 			
@@ -140,6 +135,73 @@ public class BoardMybatisDao {
 		}
 	}
 	
+	public String delete(BoardVo vo) {
+		String msg = "삭제가 완료 되었습니다";
+		try {
+			//삭제하기전 댓글 존재 파악
+			int cnt = sqlSession.selectOne("board.repl_cnt" , vo.getSerial());
+			if(cnt > 0) {
+				throw new Exception("댓글이 있는 자료는 삭제할수 없습니다");
+			}
+			//본문 삭제
+			cnt = sqlSession.delete("board.delete",vo);
+			if(cnt<1) {
+				throw new Exception("삭제중 오류발생");
+			}
+			//첨부된 파일 목록
+			List<AttVo> delList = sqlSession.selectList("board.att_list",vo.getSerial());
+			//첨부 테이블 자료 삭제
+			for(AttVo attVo : delList) {
+				cnt = sqlSession.delete("board.att_delete",attVo);
+				if(cnt <1) {
+					throw new Exception("첨부 자료 삭제중 오류발생");
+				}
+			}
+			//파일 삭제
+			delFile(delList);
+			
+			sqlSession.commit();
+		}catch(Exception e) {
+			e.printStackTrace();
+			msg = e.getMessage();
+			sqlSession.rollback();
+		}finally {
+			sqlSession.close();
+			return msg;
+		}
+	}
+	
+	
+	
+	
+	public String repl(BoardVo vo , List<AttVo> attList) {
+		String msg = "댓글 등록이 완료 되었습니다";
+		
+		int cnt=0;
+		try {
+			//댓글저장
+			cnt = sqlSession.insert("board.repl",vo);
+			if(cnt<1) {
+				throw new Exception("댓글 등록중 오류발생");
+			}
+			for(AttVo attVo : attList) {
+				cnt = sqlSession.insert("board.insert_att",attVo);
+				if(cnt<1) {
+					throw new Exception("첨부 데이터 저장중 오류발생");
+				}
+			}
+			
+			sqlSession.commit();
+		}catch(Exception e) {
+			delFile(attList);
+			e.printStackTrace();
+			msg = e.getMessage();
+			sqlSession.rollback();
+		}finally {
+			sqlSession.close();
+			return msg;
+		}
+	}
 	
 	
 	
